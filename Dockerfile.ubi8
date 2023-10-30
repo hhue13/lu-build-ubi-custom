@@ -13,9 +13,6 @@ LABEL name="s008aa39r.staden.gotheborg.net:18444/ubi8-minimal" version="8.7"
 ## Copy files for the EPEL repo so that we can install from there
 COPY RPM-GPG-KEY-EPEL-8 /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
 COPY epel8.repo /etc/yum.repos.d/epel.repo
-##
-## https://docs.openshift.com/container-platform/4.12/cicd/builds/running-entitled-builds.html#builds-source-secrets-entitlements_running-entitled-builds
-##### RUN rm /etc/rhsm-host
 
 RUN microdnf -y install glibc-langpack-se glibc-langpack-sv; sed -i 's/^LANG=.*/LANG="ev_SE.utf8"/' /etc/locale.conf
 ENV LANG="ev_SE.utf8"
@@ -66,9 +63,10 @@ RUN	microdnf -y install bind-utils  && \
 	unzip \
 	vi \
 	wget \
+	xmlstarlet \
 	zip && \
 	##
-	## ubi9 provides a minimal curl which we want to replace with a 
+	## ubi9 provides a minimal curl which we want to replace with a
 	## full curl.
 	microdnf -y update && \
 	microdnf -y reinstall glibc-common && \
